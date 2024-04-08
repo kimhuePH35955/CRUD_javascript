@@ -1,0 +1,21 @@
+{
+  "products": [
+    {
+      "name": "Phạm Kim Huệ",
+      "image": "https://picsum.photos/id/237/200/300",
+      "price": "100000",
+      "phienBan": "2024",
+      "description": "kim huệ 1234567890",
+      "id": 1
+    },
+    {
+      "name": "Phạm Thị Thanh Kim Huệ",
+      "image": "https://picsum.photos/200/300?grayscale",
+      "price": "120000",
+      "phienBan": "2022",
+      "description": "dfgsfdgbf",
+      "id": 2
+    }
+  ],
+  "users": []
+}

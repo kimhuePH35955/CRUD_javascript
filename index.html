@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kim Huệ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="flex">
+            <div class="w-full ml-4">
+                <div class="flex justify-between text-center border-b py-4">
+                    <p class="text-4xl font-bold text-center">Danh sách sản phẩm</p>
+                    <a href="add.html"
+                        class="mr-20 border bg-gray-200 rounded-md px-4 text-center flex items-center">Thêm</a>
+                </div>
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm rtl:text-right text-gray-50 text-center">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" class="w-[50px]">
+                                    <span>STT</span>
+                                </th>
+                                <th scope="col" class="px-6 py-3">Tên sản phẩm</th>
+                                <th scope="col" class="px-6 py-3">Hình ảnh</th>
+                                <th scope="col" class="px-6 py-3">Giá</th>
+                                <th scope="col" class="px-6 py-3">Phiên bản</th>
+                                <th scope="col" class="px-6 py-3">Mô tả</th>
+                                <th scope="col" class="px-6 py-3"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="content"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const content = document.querySelector("#content");
+        const getProducts = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/products`);
+                const data = await response.json();
+                content.innerHTML = data.map((product, index) => {
+                    return `
+                    <tr class="bg-white border-b">
+                                <td class="font-semibold text-gray-900">
+                                    ${index + 1}
+                                    </td>
+                                <td class="px-6 py-4 font-semibold text-gray-900">
+                                   ${product.name}
+                                </td>
+                                <td class="px-6 py-4 font-semibold text-gray-900">
+                                    <img class="m-auto w-[100px] h-[150px] object-cover"
+                                        src=${product.image} alt=${product.name}>
+                                </td>
+                                <td class="px-6 py-4 font-semibold text-gray-900">
+                                    ${product.price}
+                                    </td>
+                                <td class="px-6 py-4 font-semibold text-gray-900">
+                                    ${product.phienBan}
+                                </td>
+                                <td class="px-6 py-4 font-semibold text-gray-900">
+                                    ${product.description}
+                                </td>
+                                <td class="px-6 py-4">
+                                    <a href="edit.html?id=${product.id}" class="px-4 py-2 bg-blue-600 text-white rounded-md mr-4"
+                                        class="font-medium text-red-600">Sửa</a>
+                                    <button onClick={removeProduct('${product.id}')} class="px-4 py-2 bg-red-600 text-white rounded-md mr-4"
+                                        class="font-medium text-red-600">
+                                        Xóa
+                                    </button>
+                                </td>
+                            </tr>
+                    `
+                }).join("");
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getProducts();
+        const removeProduct = async (id) => {
+            try {
+                await fetch(`http://localhost:3000/products/${id}`, {
+                    method: "DELETE",
+                });
+                alert("Bạn có chắc chắn muốn xóa không ?");
+                window.location.reload();
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    </script>
+</body>
+
+</html>
